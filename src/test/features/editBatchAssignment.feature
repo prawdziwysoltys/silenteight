@@ -1,6 +1,6 @@
-Feature: Working on branch
+Feature: Editing assigned batch list
 
-    Scenario: Adding batch to assigned
+    Scenario: Adding and removing batch from assigned list
       Given I'm log-in as test user
       When I create new decision tree "test_batch_assign"
       Then Decision Tree "test_batch_assign" is visible in main page

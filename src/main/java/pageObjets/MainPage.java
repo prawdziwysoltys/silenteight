@@ -6,9 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.Reporter;
+import utils.ReadPropertiesFile;
 
 import java.util.List;
 
@@ -37,9 +37,10 @@ public class MainPage extends PageObjectTemplate {
     }
 
     public void addBlankTree(String treeName) {
-        this.createBlankTreeButton.click();
+        waitToClickableAndClick(this.createBlankTreeButton);
+        waitToClickableAndClick(this.treeNameInput);
         this.treeNameInput.sendKeys(treeName);
-        new Select(this.aiModelForDecisonTreeSelect).selectByVisibleText(" sens-213 ");
+        new Select(this.aiModelForDecisonTreeSelect).selectByIndex(1);
         this.createNewTreeButton.click();
 
         if (this.isDecisionTreeCreated(treeName))
@@ -49,7 +50,7 @@ public class MainPage extends PageObjectTemplate {
     }
 
     public void openDecisionTree(String treeName) {
-        driver.findElement(By.xpath("//a[text()='test_batch_assign']")).click();
+        driver.findElement(By.xpath(String.format("//a[text()='%s']", treeName))).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[starts-with(text(),'Decision Tree')]")));
     }
 
@@ -59,9 +60,12 @@ public class MainPage extends PageObjectTemplate {
     }
 
     public void deleteTree(String treeName) {
-        this.getDecisionTreeRow(treeName).findElement(By.xpath("//button[text()='Remove']")).click();
+        //TODO xpath for remove button to be changed
+        String xpathForRemoveButton = String.format("//td[@class='name']//a[contains(@class, 'decision-tree-name') and text()='test_batch_assign']/../../..//button[text()='Remove']", treeName);
+        this.driver.findElement(By.xpath(xpathForRemoveButton)).click();
         this.treeRemoveConfirmationInput.sendKeys("Delete");
-
+        waitToClickableAndClick(this.removeTreeButton);
+        this.driver.get(ReadPropertiesFile.getPropertyByKey("url"));
     }
 
     public WebElement getDecisionTreeRow(String treeName) {

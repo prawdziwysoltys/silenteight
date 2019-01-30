@@ -23,11 +23,8 @@ public class TestRunner {
     private TestNGCucumberRunner cucumberRunner;
 
     @BeforeClass(alwaysRun = true)
-    @Parameters({"browserType"})
-    public void setUpClass(String browserType) throws Exception {
+    public void setUpClass() throws Exception {
         cucumberRunner = new TestNGCucumberRunner(this.getClass());
-        //create driver
-        //log in
     }
 
     @Test(groups = "userScenarios", dataProvider = "features")
