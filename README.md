@@ -1,7 +1,8 @@
 # SilentEight
 To run test please use commads:
 ```
-git clone https://github.com/prawdziwysoltys/silenteight.git
+git clone git@github.com:prawdziwysoltys/silenteight.git
+cd silenteight
 mvn test
 ```
 
